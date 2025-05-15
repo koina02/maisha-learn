@@ -5,40 +5,291 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Maisha Learn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-green: #2E7D32;
             --secondary-green: #4CAF50;
+            --accent-lime: #8BC34A;
             --admin-red: #dc3545;
+            --admin-blue: #0d6efd;
             --light-bg: #F8F9FA;
+            --dark-bg: #212529;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
         }
 
         .admin-nav {
             background: var(--primary-green);
             min-height: 100vh;
-            padding: 1rem;
+            padding: 2rem 1.5rem;
             color: white;
+            transition: var(--transition);
+            position: sticky;
+            top: 0;
         }
 
-        .module-form .form-control {
+        .admin-nav-brand {
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-nav-link:hover, .admin-nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav-link i {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .admin-main {
+            padding: 2rem;
+            background-color: var(--light-bg);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .admin-title {
+            font-weight: 700;
+            color: var(--primary-green);
+            position: relative;
+            display: inline-block;
+        }
+
+        .admin-title:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-green), var(--secondary-green));
+            border-radius: 3px;
+        }
+
+        .data-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .data-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .data-card h3 {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            height: 100%;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.15);
+        }
+
+        .stat-card h5 {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .stat-card .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .module-form .form-control, .module-form .form-select {
             border-radius: 8px;
             padding: 12px 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .module-form .form-control:focus, .module-form .form-select:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
         }
 
         .student-table {
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--card-shadow);
         }
 
-        .data-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        .student-table .table {
+            margin-bottom: 0;
+        }
+
+        .student-table .table thead th {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+
+        .student-table .table tbody td {
+            padding: 1rem 1.5rem;
+            vertical-align: middle;
+            border-color: rgba(0,0,0,0.05);
+        }
+
+        .student-table .table tbody tr:hover {
+            background-color: rgba(46, 125, 50, 0.05);
+        }
+
+        .progress-thin {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+        }
+
+        .progress-thin .progress-bar {
+            background: linear-gradient(90deg, var(--accent-lime), var(--secondary-green));
+        }
+
+        .btn-admin {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-admin-primary {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            color: white;
+        }
+
+        .btn-admin-primary:hover {
+            background-color: var(--secondary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+            color: white;
+        }
+
+        .btn-admin-outline {
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .btn-admin-outline:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .btn-admin-danger {
+            background-color: var(--admin-red);
+            border-color: var(--admin-red);
+            color: white;
+        }
+
+        .btn-admin-danger:hover {
+            background-color: #bb2d3b;
+            color: white;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: var(--primary-green);
+        }
+
+        .toast-admin {
+            border-left: 4px solid var(--primary-green);
+        }
+
+        @media (max-width: 992px) {
+            .admin-nav {
+                min-height: auto;
+                padding: 1rem;
+            }
+            
+            .admin-main {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .admin-actions {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -47,138 +298,388 @@
         <div class="row">
             <!-- Admin Navigation -->
             <nav class="admin-nav col-md-3 col-lg-2">
-                <div class="d-flex flex-column">
-                    <h3 class="mb-4">
+                <div class="admin-nav-brand">
+                    <h3 class="mb-0">
                         <i class="fas fa-user-shield me-2"></i>Admin Panel
                     </h3>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#modules">
-                                <i class="fas fa-book me-2"></i>Course Modules
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#students">
-                                <i class="fas fa-users me-2"></i>Students
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#analytics">
-                                <i class="fas fa-chart-line me-2"></i>Analytics
-                            </a>
-                        </li>
-                        <li class="nav-item mt-4">
-                            <button class="btn btn-outline-light w-100" onclick="logout()">
-                                <i class="fas fa-sign-out-alt me-2"></i>Logout
-                            </button>
-                        </li>
-                    </ul>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="admin-nav-link active" href="#dashboard">
+                            <i class="fas fa-tachometer-alt"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="admin-nav-link" href="#modules">
+                            <i class="fas fa-book"></i>Course Modules
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="admin-nav-link" href="#students">
+                            <i class="fas fa-users"></i>Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="admin-nav-link" href="#analytics">
+                            <i class="fas fa-chart-line"></i>Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="admin-nav-link" href="#settings">
+                            <i class="fas fa-cog"></i>Settings
+                        </a>
+                    </li>
+                </ul>
+                <div class="mt-auto pt-3">
+                    <button class="btn btn-outline-light w-100" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
                 </div>
             </nav>
 
             <!-- Main Content -->
-            <main class="col-md-9 col-lg-10 p-4 bg-light">
-                <!-- Stats Cards -->
-                <div class="row g-4 mb-4">
-                    <div class="col-md-4">
-                        <div class="data-card">
-                            <h5><i class="fas fa-users me-2"></i>Total Students</h5>
-                            <h2 class="mt-2" id="totalStudents">0</h2>
-                        </div>
+            <main class="admin-main col-md-9 col-lg-10">
+                <!-- Dashboard Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2 class="admin-title">Admin Dashboard</h2>
+                        <p class="text-muted mb-0">Welcome back, Administrator</p>
                     </div>
-                    <div class="col-md-4">
-                        <div class="data-card">
-                            <h5><i class="fas fa-book me-2"></i>Total Modules</h5>
-                            <h2 class="mt-2" id="totalModules">0</h2>
+                    <div class="admin-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" placeholder="Search...">
                         </div>
                     </div>
                 </div>
 
-                <!-- Module Management -->
-                <section class="module-form mb-5" id="modules">
-                    <div class="data-card">
-                        <h3 class="mb-4"><i class="fas fa-upload me-2"></i>Upload New Module</h3>
-                        <form id="uploadModuleForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Module Title</label>
-                                    <input type="text" class="form-control" id="moduleTitle" required>
+                <!-- Dashboard Content -->
+                <div id="dashboard-content">
+                    <!-- Stats Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stat-card">
+                                <h5><i class="fas fa-users me-2"></i>Total Students</h5>
+                                <div class="stat-value" id="totalStudents">1,248</div>
+                                <div class="stat-label">+12% from last month</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stat-card">
+                                <h5><i class="fas fa-book me-2"></i>Active Modules</h5>
+                                <div class="stat-value" id="totalModules">24</div>
+                                <div class="stat-label">5 new this month</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stat-card">
+                                <h5><i class="fas fa-check-circle me-2"></i>Completions</h5>
+                                <div class="stat-value">876</div>
+                                <div class="stat-label">+32% from last month</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stat-card">
+                                <h5><i class="fas fa-clock me-2"></i>Avg. Time</h5>
+                                <div class="stat-value">2.4h</div>
+                                <div class="stat-label">per student/week</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module Management -->
+                    <section class="module-form mb-5" id="modules">
+                        <div class="data-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h3><i class="fas fa-upload me-2"></i>Upload New Module</h3>
+                                <button class="btn btn-admin btn-admin-outline" id="toggleModuleList">
+                                    <i class="fas fa-list me-2"></i>View All Modules
+                                </button>
+                            </div>
+                            
+                            <form id="uploadModuleForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Module Title*</label>
+                                        <input type="text" class="form-control" id="moduleTitle" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Category*</label>
+                                        <select class="form-select" id="moduleCategory" required>
+                                            <option value="">Select category</option>
+                                            <option value="personal">Personal Growth</option>
+                                            <option value="career">Career Development</option>
+                                            <option value="finance">Financial Literacy</option>
+                                            <option value="health">Health & Wellness</option>
+                                            <option value="tech">Technology Skills</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Difficulty Level*</label>
+                                        <select class="form-select" id="moduleDifficulty" required>
+                                            <option value="beginner">Beginner</option>
+                                            <option value="intermediate">Intermediate</option>
+                                            <option value="advanced">Advanced</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Description*</label>
+                                        <textarea class="form-control" id="moduleDescription" rows="3" required></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Video URL*</label>
+                                        <input type="url" class="form-control" id="moduleVideo" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Quiz Link*</label>
+                                        <input type="url" class="form-control" id="moduleQuiz" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Estimated Duration (mins)*</label>
+                                        <input type="number" class="form-control" id="moduleDuration" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Thumbnail Image</label>
+                                        <input type="file" class="form-control" id="moduleThumbnail" accept="image/*">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Module Order</label>
+                                        <input type="number" class="form-control" id="moduleOrder">
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <button type="submit" class="btn btn-admin btn-admin-primary me-2">
+                                            <i class="fas fa-upload me-2"></i>Publish Module
+                                        </button>
+                                        <button type="reset" class="btn btn-admin btn-admin-outline">
+                                            <i class="fas fa-undo me-2"></i>Reset Form
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Difficulty Level</label>
-                                    <select class="form-select" id="moduleDifficulty">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="advanced">Advanced</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-control" id="moduleDescription" rows="3" required></textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Video URL</label>
-                                    <input type="url" class="form-control" id="moduleVideo" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Quiz Link</label>
-                                    <input type="url" class="form-control" id="moduleQuiz" required>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-upload me-2"></i>Publish Module
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- Student Management -->
+                    <section id="students">
+                        <div class="data-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h3><i class="fas fa-users-cog me-2"></i>Student Management</h3>
+                                <div class="d-flex">
+                                    <div class="search-box me-2">
+                                        <i class="fas fa-search"></i>
+                                        <input type="text" class="form-control" id="studentSearch" placeholder="Search students...">
+                                    </div>
+                                    <button class="btn btn-admin btn-admin-primary">
+                                        <i class="fas fa-plus me-2"></i>Add Student
                                     </button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- Student Management -->
-                <section id="students">
-                    <div class="data-card">
-                        <h3 class="mb-4"><i class="fas fa-users-cog me-2"></i>Student Management</h3>
-                        <div class="input-group mb-4">
-                            <input type="text" class="form-control" placeholder="Search students...">
-                            <button class="btn btn-outline-secondary">
-                                <i class="fas fa-search"></i>
-                            </button>
+                            
+                            <div class="table-responsive student-table">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Student</th>
+                                            <th>Email</th>
+                                            <th>Progress</th>
+                                            <th>Last Active</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="studentList">
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://via.placeholder.com/40" alt="User" class="rounded-circle me-3">
+                                                    <div>
+                                                        <div class="fw-bold">John Doe</div>
+                                                        <small class="text-muted">ID: STD001</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>john.doe@example.com</td>
+                                            <td>
+                                                <div class="progress-thin">
+                                                    <div class="progress-bar" style="width: 75%"></div>
+                                                </div>
+                                                <small class="text-muted">75% completed</small>
+                                            </td>
+                                            <td>2 hours ago</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-admin btn-admin-outline me-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-admin btn-admin-outline me-1">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-admin btn-admin-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://via.placeholder.com/40" alt="User" class="rounded-circle me-3">
+                                                    <div>
+                                                        <div class="fw-bold">Jane Smith</div>
+                                                        <small class="text-muted">ID: STD002</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>jane.smith@example.com</td>
+                                            <td>
+                                                <div class="progress-thin">
+                                                    <div class="progress-bar" style="width: 42%"></div>
+                                                </div>
+                                                <small class="text-muted">42% completed</small>
+                                            </td>
+                                            <td>1 day ago</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-admin btn-admin-outline me-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-admin btn-admin-outline me-1">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-admin btn-admin-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://via.placeholder.com/40" alt="User" class="rounded-circle me-3">
+                                                    <div>
+                                                        <div class="fw-bold">Michael Johnson</div>
+                                                        <small class="text-muted">ID: STD003</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>michael.j@example.com</td>
+                                            <td>
+                                                <div class="progress-thin">
+                                                    <div class="progress-bar" style="width: 100%"></div>
+                                                </div>
+                                                <small class="text-muted">100% completed</small>
+                                            </td>
+                                            <td>3 days ago</td>
+                                            <td><span class="badge bg-secondary">Inactive</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-admin btn-admin-outline me-1">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-admin btn-admin-outline me-1">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-admin btn-admin-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted">
+                                    Showing <span id="showingCount">1</span> to <span id="totalCount">3</span> of <span id="totalRecords">24</span> entries
+                                </div>
+                                <nav>
+                                    <ul class="pagination">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
-                        <div class="table-responsive student-table">
-                            <table class="table table-hover">
-                                <thead class="table-success">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Progress</th>
-                                        <th>Last Active</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="studentList">
-                                    <!-- Students loaded dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </main>
         </div>
     </div>
 
     <!-- Toast Notification -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
-        <div id="adminToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="adminToast" class="toast toast-admin" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto">System Notification</strong>
+                <small class="text-muted">Just now</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
             </div>
-            <div class="toast-body"></div>
+            <div class="toast-body">
+                Module uploaded successfully!
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="firebase-config.js"></script>
-    <script src="admin.js"></script>
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Initialize toast
+        var toastEl = document.getElementById('adminToast');
+        var toast = new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 3000
+        });
+
+        // Form submission
+        document.getElementById('uploadModuleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate form submission
+            setTimeout(function() {
+                toast._element.querySelector('.toast-body').textContent = 'Module uploaded successfully!';
+                toast.show();
+                
+                // Reset form
+                e.target.reset();
+            }, 1000);
+        });
+
+        // Logout function
+        function logout() {
+            // Add logout logic here
+            window.location.href = 'login.html';
+        }
+
+        // Toggle module list view
+        document.getElementById('toggleModuleList').addEventListener('click', function() {
+            // Add logic to toggle between form and list view
+            alert('This would toggle to show all modules list');
+        });
+
+        // Student search functionality
+        document.getElementById('studentSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#studentList tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
