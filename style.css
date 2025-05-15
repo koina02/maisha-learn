@@ -1,64 +1,178 @@
-/* Global Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", sans-serif;
+:root {
+    --primary-green: #2E7D32;
+    --secondary-green: #388E3C;
+    --accent-lime: #8BC34A;
+    --dark-bg: #1A1A1A;
+    --light-bg: #F8F9FA;
 }
 
 body {
-  background-color: #f9f9f9;
-  color: #222;
-  padding: 20px;
-  line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
 }
 
-header {
-  background: #1D2955;
-  color: white;
-  padding: 40px 20px;
-  text-align: center;
-  border-radius: 10px;
+.navbar {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
 }
 
-.cta-button {
-  background: #F9A826;
-  padding: 12px 24px;
-  color: black;
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                url('assets/hero-bg.jpg') center/cover;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    margin-top: 76px; /* Navbar height */
 }
 
-input, button {
-  margin: 10px 0;
-  padding: 12px;
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.hero-overlay {
+    color: white;
 }
 
-.module {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin: 20px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.feature-card {
+    background: white;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
 }
 
-.module iframe {
-  width: 100%;
-  height: 250px;
-  border-radius: 8px;
-  margin-top: 10px;
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.badge {
-  display: inline-block;
-  padding: 6px 12px;
-  background: gold;
-  border-radius: 6px;
-  font-weight: bold;
+.section-title {
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-green);
+}
+
+.footer {
+    background: var(--dark-bg);
+}
+
+.btn-success {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    padding: 0.8rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: var(--secondary-green);
+    border-color: var(--secondary-green);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: auto;
+        padding: 120px 0 60px;
+    }
+    
+    .display-3 {
+        font-size: 2.5rem;
+    }
+}
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+    background: var(--light-bg);
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.auth-header {
+    margin-bottom: 2rem;
+}
+
+.auth-form .input-group-text {
+    background: var(--light-bg);
+    border: none;
+    min-width: 45px;
+    justify-content: center;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.password-strength .progress-bar {
+    transition: width 0.3s ease;
+}
+
+.social-auth button {
+    border-radius: 8px;
+    padding: 12px;
+}
+
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+}
+
+.shimmer {
+    background: #f6f7f8;
+    background-image: linear-gradient(
+        to right,
+        #f6f7f8 0%,
+        #edeef1 20%,
+        #f6f7f8 40%,
+        #f6f7f8 100%
+    );
+    background-size: 800px 104px;
+    animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+    0% { background-position: -468px 0 }
+    100% { background-position: 468px 0 }
+}
+
+.google-form-btn {
+    background-color: #673AB7 !important;
+    border-color: #673AB7 !important;
 }

@@ -1,18 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="light">
 <head>
-  <title>Login | Maisha Learn</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-  <script src="firebase-config.js" defer></script>
-  <script src="app.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Maisha Learn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --secondary-green: #4CAF50;
+            --accent-yellow: #FFD700;
+            --light-bg: #F8F9FA;
+            --dark-bg: #1A1A1A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)),
+                        url('assets/african-pattern-bg.png');
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--primary-green);
+        }
+    </style>
 </head>
 <body>
-  <h2>Login to Maisha Learn</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button onclick="login()">Login</button>
-  <p>New user? <button onclick="register()">Register here</button></p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/logo-green.svg" alt="Maisha Learn" height="40">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header text-center mb-5">
+                <h2 class="fw-bold mb-3">Welcome Back</h2>
+                <p class="text-muted">Continue your learning journey</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="mb-4">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" class="form-control" id="email" 
+                               placeholder="john@example.com" required>
+                    </div>
+                </div>
+
+                <div class="mb-4 position-relative">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" id="password" 
+                               placeholder="Enter your password" required>
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                    <div class="text-end mt-2">
+                        <a href="#forgot-password" class="text-success small">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                </button>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted mb-0">New to Maisha Learn? 
+                        <a href="register.html" class="text-success fw-bold">Create Account</a>
+                    </p>
+                </div>
+
+                <div class="divider my-4">or continue with</div>
+
+                <div class="social-auth d-flex gap-3">
+                    <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="signInWithGoogle()">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="signInWithFacebook()">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Error Toast -->
+    <div class="toast align-items-center text-white bg-danger border-0 position-fixed top-1 end-1">
+        <div class="d-flex">
+            <div class="toast-body"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        // Password Visibility Toggle
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        
+        togglePassword.addEventListener('click', () => {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        // Login Handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                await firebase.auth().signInWithEmailAndPassword(email, password);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                showToast(error.message);
+            }
+        });
+
+        // Social Auth Handlers
+        async function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                await firebase.auth().signInWithPopup(provider);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                showToast(error.message);
+            }
+        }
+
+        async function signInWithFacebook() {
+            const provider = new firebase.auth.FacebookAuthProvider();
+            try {
+                await firebase.auth().signInWithPopup(provider);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                showToast(error.message);
+            }
+        }
+
+        function showToast(message) {
+            const toast = new bootstrap.Toast(document.querySelector('.toast'));
+            document.querySelector('.toast-body').textContent = message;
+            toast.show();
+        }
+    </script>
 </body>
 </html>

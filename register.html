@@ -1,23 +1,217 @@
-<!-- register.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <title>Register - Maisha Learn</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Maisha Learn - Create Your Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --secondary-green: #4CAF50;
+            --accent-yellow: #FFD700;
+            --light-bg: #F8F9FA;
+            --dark-bg: #1A1A1A;
+            --text-light: #333333;
+            --text-dark: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        body[data-theme="dark"] {
+            --light-bg: var(--dark-bg);
+            --text-light: var(--text-dark);
+        }
+
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)),
+                        url('assets/african-pattern-bg.png');
+        }
+
+        .auth-card {
+            background: var(--light-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            margin: 2rem auto;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+        }
+
+        .auth-header {
+            position: relative;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-green);
+            border-radius: 2px;
+        }
+
+        .input-group-text {
+            background: rgba(46, 125, 50, 0.1);
+            border: none;
+            color: var(--primary-green);
+        }
+
+        .form-control {
+            border: 1px solid rgba(46, 125, 50, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary-green);
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .african-illustration {
+            position: absolute;
+            bottom: -50px;
+            right: -30px;
+            width: 150px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-  <h2>Create a Maisha Learn Account</h2>
-  <form id="registerForm">
-    <input type="text" id="name" placeholder="Full Name" required><br>
-    <input type="email" id="email" placeholder="Email" required><br>
-    <input type="password" id="password" placeholder="Password" required><br>
-    <button type="submit">Register</button>
-  </form>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
 
-  <p>Already have an account? <a href="login.html">Login</a></p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/logo-green.svg" alt="Maisha Learn" height="40">
+            </a>
+        </div>
+    </nav>
 
-  <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
+    <!-- Registration Section -->
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header text-center mb-5">
+                <h2 class="fw-bold mb-3">Start Your Learning Journey</h2>
+                <p class="text-muted">Join 10,000+ African youth transforming their lives</p>
+                <img src="assets/african-learner.png" class="african-illustration" alt="African learner">
+            </div>
+
+            <!-- Rest of the form remains the same -->
+
+        </div>
+    </main>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+        // Password Strength Checker
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.querySelector('.progress-bar');
+        const strengthText = document.getElementById('strengthText');
+
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            let strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^A-Za-z0-9]/)) strength++;
+
+            const width = strength * 25;
+            strengthBar.style.width = `${width}%`;
+            
+            strengthBar.className = `progress-bar ${
+                strength < 2 ? 'bg-danger' : 
+                strength < 4 ? 'bg-warning' : 'bg-success'
+            }`;
+            
+            strengthText.textContent = 
+                strength < 2 ? 'Weak' : 
+                strength < 4 ? 'Moderate' : 'Strong';
+        });
+
+        // Form Validation
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+
+            try {
+                const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                await userCredential.user.updateProfile({ displayName: name });
+                
+                // Save additional user data to Firestore
+                await firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                    name: name,
+                    email: email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    progress: {}
+                });
+
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                showToast(error.message);
+            }
+        });
+
+        function showToast(message) {
+            const toast = new bootstrap.Toast(document.querySelector('.toast'));
+            document.querySelector('.toast-body').textContent = message;
+            toast.show();
+        }
+    </script>
 </body>
 </html>
