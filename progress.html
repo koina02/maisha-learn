@@ -1,0 +1,44 @@
+<div class="container py-5">
+    <h2 class="mb-4">Your Learning Progress</h2>
+    <div class="card">
+        <div class="card-body">
+            <canvas id="progressChart"></canvas>
+        </div>
+    </div>
+    <div class="mt-4" id="completedModules">
+        <!-- Completed modules list -->
+    </div>
+</div>
+
+<script>
+// Add to app.js (include Chart.js CDN in header)
+if (document.getElementById('progressChart')) {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            db.collection('users').doc(user.uid).onSnapshot(doc => {
+                const progress = doc.data().progress || {};
+                
+                // Render chart
+                new Chart(document.getElementById('progressChart'), {
+                    type: 'line',
+                    data: {
+                        labels: Object.keys(progress),
+                        datasets: [{
+                            label: 'Quiz Scores',
+                            data: Object.values(progress),
+                            borderColor: '#0d6efd'
+                        }]
+                    }
+                });
+
+                // Render completed modules
+                const completed = document.getElementById('completedModules');
+                completed.innerHTML = '<h4>Completed Modules:</h4>';
+                Object.keys(progress).forEach(module => {
+                    completed.innerHTML += `<div class="alert alert-success">${module}</div>`;
+                });
+            });
+        }
+    });
+}
+</script>

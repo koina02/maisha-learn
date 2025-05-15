@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard | Maisha Learn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>👤 Welcome to Your Dashboard</h2>
+  <p><strong>XP Points:</strong> <span id="xp">...</span></p>
+  <p><strong>Badge:</strong> <span id="badge" class="badge">...</span></p>
+
+  <h3>📈 Module Progress</h3>
+  <ul id="progress-list"></ul>
+
+  <script src="firebase-config.js"></script>
+  <script>
+    const user = firebase.auth().currentUser;
+    const progressList = document.getElementById("progress-list");
+
+    firebase.firestore().collection("progress").where("user", "==", user.uid)
+      .get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          progressList.innerHTML += `<li>${p.moduleTitle} - ${p.status}</li>`;
+        });
+    });
+
+    firebase.firestore().collection("students").doc(user.uid)
+      .get().then(doc => {
+        const data = doc.data();
+        document.getElementById("xp").innerText = data.xp_points;
+        document.getElementById("badge").innerText = data.badge_level;
+      });
+  </script>
+</body>
+</html>

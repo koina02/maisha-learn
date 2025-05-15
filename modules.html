@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Modules | Maisha Learn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>📘 Your Modules</h2>
+  <div id="modules-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    const container = document.getElementById("modules-container");
+
+    firebase.firestore().collection("modules").get().then(snapshot => {
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        container.innerHTML += `
+          <div class="module">
+            <h3>${data.title}</h3>
+            <p>${data.description}</p>
+            <iframe src="${data.video}" frameborder="0" allowfullscreen></iframe>
+            <a href="${data.quiz}" target="_blank" class="cta-button">Take Quiz</a>
+          </div>
+        `;
+      });
+    });
+  </script>
+</body>
+</html>
