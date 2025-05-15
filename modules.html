@@ -5,80 +5,307 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Modules - Maisha Learn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-green: #2E7D32;
             --secondary-green: #4CAF50;
             --accent-lime: #8BC34A;
+            --light-green: #E8F5E9;
+            --dark-green: #1B5E20;
             --light-bg: #F8F9FA;
+            --card-shadow: 0 6px 15px rgba(46, 125, 50, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.9), rgba(76, 175, 80, 0.9)),
+                        url('assets/african-pattern-bg.png') center/cover;
+            color: white;
+            padding: 4rem 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
         }
 
         .module-card {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
             overflow: hidden;
+            height: 100%;
+            border: none;
         }
 
         .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(46, 125, 50, 0.15);
         }
 
         .module-thumbnail {
             height: 200px;
-            background-color: #e8f5e9;
+            background-color: var(--light-green);
             position: relative;
+            overflow: hidden;
+        }
+
+        .module-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .module-card:hover .module-thumbnail img {
+            transform: scale(1.05);
         }
 
         .module-content {
-            padding: 1.5rem;
+            padding: 1.75rem;
         }
 
         .progress-badge {
             background: var(--accent-lime);
             color: white;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-beginner { background: var(--accent-lime); }
+        .badge-intermediate { background: #FFC107; color: #333; }
+        .badge-advanced { background: #F44336; }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 50px;
+            border: 1px solid rgba(46, 125, 50, 0.3);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: var(--primary-green);
+        }
+
+        .category-filter {
+            margin-bottom: 2rem;
+        }
+
+        .category-btn {
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            color: var(--primary-green);
+            margin-right: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .module-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
             font-size: 0.9rem;
         }
 
-        .video-container {
-            border-radius: 12px;
+        .stat-item i {
+            margin-right: 5px;
+            color: var(--primary-green);
+        }
+
+        .btn-success {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-success:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .module-progress {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin-top: 1rem;
             overflow: hidden;
+        }
+
+        .module-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-lime), var(--secondary-green));
+            width: 0;
+            transition: width 0.6s ease;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2.5rem 0;
+                text-align: center;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 1.5rem;
+            }
         }
     </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <nav aria-label="breadcrumb">
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold mb-3">Expand Your Knowledge</h1>
+                    <p class="lead mb-4">Discover our curated collection of learning modules designed to help you grow personally and professionally.</p>
+                    <a href="#modules" class="btn btn-light btn-lg px-4 py-2">
+                        <i class="fas fa-play-circle me-2"></i>Start Learning
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container py-4" id="modules">
+        <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Modules</li>
+                <li class="breadcrumb-item active" aria-current="page">Learning Modules</li>
             </ol>
         </nav>
 
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <h1 class="display-6 fw-bold text-success">
-                <i class="fas fa-book-open me-2"></i>Learning Modules
-            </h1>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
+            <h2 class="h3 fw-bold text-success mb-3 mb-md-0">
+                <i class="fas fa-book-open me-2"></i>All Modules
+            </h2>
             <div class="search-box">
-                <input type="text" class="form-control" placeholder="Search modules...">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" id="module-search" placeholder="Search modules...">
             </div>
         </div>
 
+        <!-- Category Filters -->
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">All Categories</button>
+            <button class="category-btn" data-category="personal">Personal Growth</button>
+            <button class="category-btn" data-category="career">Career Development</button>
+            <button class="category-btn" data-category="finance">Financial Literacy</button>
+            <button class="category-btn" data-category="health">Health & Wellness</button>
+            <button class="category-btn" data-category="tech">Technology Skills</button>
+        </div>
+
+        <!-- Modules Grid -->
         <div class="row g-4" id="modules-container">
             <!-- Loading Skeleton -->
-            <div class="col-12">
+            <div class="col-lg-4 col-md-6">
                 <div class="module-card">
                     <div class="module-thumbnail shimmer"></div>
                     <div class="module-content">
-                        <div class="placeholder-wave">
+                        <div class="placeholder-wave mb-3">
                             <span class="placeholder col-8"></span>
+                        </div>
+                        <div class="placeholder-wave mb-4">
                             <span class="placeholder col-10"></span>
                             <span class="placeholder col-6"></span>
+                        </div>
+                        <div class="placeholder-wave">
+                            <span class="placeholder col-4" style="height: 30px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-thumbnail shimmer"></div>
+                    <div class="module-content">
+                        <div class="placeholder-wave mb-3">
+                            <span class="placeholder col-7"></span>
+                        </div>
+                        <div class="placeholder-wave mb-4">
+                            <span class="placeholder col-9"></span>
+                            <span class="placeholder col-5"></span>
+                        </div>
+                        <div class="placeholder-wave">
+                            <span class="placeholder col-4" style="height: 30px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-thumbnail shimmer"></div>
+                    <div class="module-content">
+                        <div class="placeholder-wave mb-3">
+                            <span class="placeholder col-6"></span>
+                        </div>
+                        <div class="placeholder-wave mb-4">
+                            <span class="placeholder col-11"></span>
+                            <span class="placeholder col-7"></span>
+                        </div>
+                        <div class="placeholder-wave">
+                            <span class="placeholder col-4" style="height: 30px;"></span>
                         </div>
                     </div>
                 </div>
@@ -90,62 +317,219 @@
     <script src="firebase-config.js"></script>
     <script>
         const modulesContainer = document.getElementById('modules-container');
+        const searchInput = document.getElementById('module-search');
+        const categoryBtns = document.querySelectorAll('.category-btn');
         const db = firebase.firestore();
 
-        async function loadModules() {
-            try {
-                const querySnapshot = await db.collection('modules').get();
-                modulesContainer.innerHTML = ''; // Clear loading state
+        // Sample module data (in a real app, this would come from Firestore)
+        const sampleModules = [
+            {
+                id: 'mod1',
+                title: 'Financial Literacy Fundamentals',
+                description: 'Learn essential money management skills, budgeting, and investment basics for financial independence.',
+                category: 'finance',
+                difficulty: 'Beginner',
+                duration: '45 mins',
+                progress: 75,
+                thumbnail: 'assets/finance-thumbnail.jpg',
+                video: 'https://www.youtube.com/watch?v=EXAMPLE1',
+                quiz: '#',
+                enrolled: 1245,
+                lessons: 6
+            },
+            {
+                id: 'mod2',
+                title: 'Career Growth Strategies',
+                description: 'Master professional development techniques to advance your career and build meaningful work relationships.',
+                category: 'career',
+                difficulty: 'Intermediate',
+                duration: '1 hour',
+                progress: 30,
+                thumbnail: 'assets/career-thumbnail.jpg',
+                video: 'https://www.youtube.com/watch?v=EXAMPLE2',
+                quiz: '#',
+                enrolled: 892,
+                lessons: 8
+            },
+            {
+                id: 'mod3',
+                title: 'Mindfulness & Stress Management',
+                description: 'Develop mindfulness practices to reduce stress and improve mental wellbeing in daily life.',
+                category: 'health',
+                difficulty: 'Beginner',
+                duration: '35 mins',
+                progress: 0,
+                thumbnail: 'assets/mindfulness-thumbnail.jpg',
+                video: 'https://www.youtube.com/watch?v=EXAMPLE3',
+                quiz: '#',
+                enrolled: 1567,
+                lessons: 5
+            },
+            {
+                id: 'mod4',
+                title: 'Digital Skills for Beginners',
+                description: 'Essential computer and internet skills to navigate the digital world with confidence.',
+                category: 'tech',
+                difficulty: 'Beginner',
+                duration: '50 mins',
+                progress: 100,
+                thumbnail: 'assets/digital-thumbnail.jpg',
+                video: 'https://www.youtube.com/watch?v=EXAMPLE4',
+                quiz: '#',
+                enrolled: 2103,
+                lessons: 7
+            },
+            {
+                id: 'mod5',
+                title: 'Building Healthy Relationships',
+                description: 'Learn communication techniques and emotional intelligence for stronger personal connections.',
+                category: 'personal',
+                difficulty: 'Intermediate',
+                duration: '1 hour 15 mins',
+                progress: 45,
+                thumbnail: 'assets/relationships-thumbnail.jpg',
+                video: 'https://www.youtube.com/watch?v=o4Y5Mr8rZ9A&pp=ygUeQnVpbGRpbmcgSGVhbHRoeSBSZWxhdGlvbnNoaXBz',
+                quiz: '#',
+                enrolled: 743,
+                lessons: 9
+            },
+            {
+                id: 'mod6',
+                title: 'Entrepreneurship Essentials',
+                description: 'From idea to execution - learn the fundamentals of starting and growing your own business.',
+                category: 'career',
+                difficulty: 'Advanced',
+                duration: '2 hours',
+                progress: 10,
+                thumbnail: 'assets/entrepreneur-thumbnail.jpg',
+                video: 'https://www.youtube.com/watch?v=EXAMPLE6',
+                quiz: '#',
+                enrolled: 532,
+                lessons: 12
+            }
+        ];
+
+        // Display modules
+        function displayModules(modules) {
+            modulesContainer.innerHTML = '';
+            
+            if (modules.length === 0) {
+                modulesContainer.innerHTML = `
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <i class="fas fa-book-open"></i>
+                            <h3 class="mb-3">No modules found</h3>
+                            <p class="text-muted">Try adjusting your search or filter criteria</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            modules.forEach(module => {
+                const badgeClass = module.difficulty.toLowerCase() === 'intermediate' ? 'badge-intermediate' : 
+                                  module.difficulty.toLowerCase() === 'advanced' ? 'badge-advanced' : 'badge-beginner';
                 
-                querySnapshot.forEach(doc => {
-                    const module = doc.data();
-                    const videoId = module.video.split('v=')[1]?.split('&')[0];
-                    
-                    modulesContainer.innerHTML += `
-                        <div class="col-lg-4 col-md-6">
-                            <div class="module-card h-100">
-                                <div class="module-thumbnail">
-                                    ${videoId ? `
-                                    <iframe src="https://www.youtube.com/embed/${videoId}" 
-                                            class="w-100 h-100" 
-                                            frameborder="0" 
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                            allowfullscreen>
-                                    </iframe>
-                                    ` : '<div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted"><i class="fas fa-video-slash fa-2x"></i></div>'}
+                modulesContainer.innerHTML += `
+                    <div class="col-lg-4 col-md-6" data-category="${module.category}" data-search="${module.title.toLowerCase()} ${module.description.toLowerCase()}">
+                        <div class="module-card h-100">
+                            <div class="module-thumbnail">
+                                <img src="${module.thumbnail}" alt="${module.title}" class="img-fluid">
+                            </div>
+                            <div class="module-content">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="h5 fw-bold">${module.title}</h3>
+                                    <span class="progress-badge ${badgeClass}">${module.difficulty}</span>
                                 </div>
-                                <div class="module-content">
-                                    <div class="d-flex justify-content-between align-items-start mb-3">
-                                        <h3 class="h5 fw-bold">${module.title}</h3>
-                                        <span class="progress-badge">${module.difficulty || 'Beginner'}</span>
+                                <p class="text-muted mb-4">${module.description}</p>
+                                
+                                ${module.progress > 0 ? `
+                                <div class="module-progress">
+                                    <div class="module-progress-bar" style="width: ${module.progress}%"></div>
+                                </div>
+                                ` : ''}
+                                
+                                <div class="module-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-users"></i> ${module.enrolled.toLocaleString()} enrolled
                                     </div>
-                                    <p class="text-muted mb-4">${module.description}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="${module.quiz}" 
-                                           class="btn btn-success ${module.quiz.includes('forms.gle') ? 'google-form-btn' : ''}" 
-                                           target="_blank">
-                                            <i class="fas fa-clipboard-check me-2"></i>Take Quiz
-                                        </a>
-                                        <small class="text-muted">${module.duration || '30 mins'}</small>
+                                    <div class="stat-item">
+                                        <i class="fas fa-list-ol"></i> ${module.lessons} lessons
                                     </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <a href="module-detail.html?id=${module.id}" class="btn btn-success">
+                                        <i class="fas fa-play me-2"></i>Start Learning
+                                    </a>
+                                    <small class="text-muted">${module.duration}</small>
                                 </div>
                             </div>
                         </div>
-                    `;
-                });
-            } catch (error) {
-                modulesContainer.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
-                        <h4 class="text-muted">Failed to load modules. Please try again later.</h4>
                     </div>
                 `;
-                console.error('Error loading modules:', error);
+            });
+        }
+
+        // Filter modules by category
+        function filterByCategory(category) {
+            const allModules = document.querySelectorAll('[data-category]');
+            
+            allModules.forEach(module => {
+                if (category === 'all' || module.getAttribute('data-category') === category) {
+                    module.style.display = 'block';
+                } else {
+                    module.style.display = 'none';
+                }
+            });
+        }
+
+        // Search modules
+        function searchModules(query) {
+            const allModules = document.querySelectorAll('[data-search]');
+            let hasResults = false;
+            
+            allModules.forEach(module => {
+                const searchText = module.getAttribute('data-search');
+                
+                if (searchText.includes(query.toLowerCase())) {
+                    module.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    module.style.display = 'none';
+                }
+            });
+            
+            if (!hasResults) {
+                modulesContainer.innerHTML = `
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <h3 class="mb-3">No matching modules found</h3>
+                            <p class="text-muted">Try different search terms</p>
+                        </div>
+                    </div>
+                `;
             }
         }
 
+        // Event listeners
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterByCategory(btn.dataset.category);
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchModules(e.target.value);
+        });
+
         // Initial load
-        loadModules();
+        setTimeout(() => {
+            displayModules(sampleModules);
+        }, 1500); // Simulate loading delay
     </script>
 </body>
 </html>

@@ -1,31 +1,184 @@
-<!-- admin.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel - Maisha Learn</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Maisha Learn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --secondary-green: #4CAF50;
+            --admin-red: #dc3545;
+            --light-bg: #F8F9FA;
+        }
+
+        .admin-nav {
+            background: var(--primary-green);
+            min-height: 100vh;
+            padding: 1rem;
+            color: white;
+        }
+
+        .module-form .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+        }
+
+        .student-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .data-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+    </style>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Admin Navigation -->
+            <nav class="admin-nav col-md-3 col-lg-2">
+                <div class="d-flex flex-column">
+                    <h3 class="mb-4">
+                        <i class="fas fa-user-shield me-2"></i>Admin Panel
+                    </h3>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#modules">
+                                <i class="fas fa-book me-2"></i>Course Modules
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#students">
+                                <i class="fas fa-users me-2"></i>Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#analytics">
+                                <i class="fas fa-chart-line me-2"></i>Analytics
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <button class="btn btn-outline-light w-100" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-  <section>
-    <h2>Upload Module</h2>
-    <form id="uploadModuleForm">
-      <input type="text" id="moduleTitle" placeholder="Module Title" required>
-      <textarea id="moduleContent" placeholder="Enter content here..." rows="6" required></textarea>
-      <button type="submit">Upload Module</button>
-    </form>
-  </section>
+            <!-- Main Content -->
+            <main class="col-md-9 col-lg-10 p-4 bg-light">
+                <!-- Stats Cards -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="data-card">
+                            <h5><i class="fas fa-users me-2"></i>Total Students</h5>
+                            <h2 class="mt-2" id="totalStudents">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="data-card">
+                            <h5><i class="fas fa-book me-2"></i>Total Modules</h5>
+                            <h2 class="mt-2" id="totalModules">0</h2>
+                        </div>
+                    </div>
+                </div>
 
-  <section>
-    <h2>All Students</h2>
-    <ul id="studentList">
-      <!-- Dynamically populated -->
-    </ul>
-  </section>
+                <!-- Module Management -->
+                <section class="module-form mb-5" id="modules">
+                    <div class="data-card">
+                        <h3 class="mb-4"><i class="fas fa-upload me-2"></i>Upload New Module</h3>
+                        <form id="uploadModuleForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Module Title</label>
+                                    <input type="text" class="form-control" id="moduleTitle" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Difficulty Level</label>
+                                    <select class="form-select" id="moduleDifficulty">
+                                        <option value="beginner">Beginner</option>
+                                        <option value="intermediate">Intermediate</option>
+                                        <option value="advanced">Advanced</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-control" id="moduleDescription" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Video URL</label>
+                                    <input type="url" class="form-control" id="moduleVideo" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Quiz Link</label>
+                                    <input type="url" class="form-control" id="moduleQuiz" required>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-upload me-2"></i>Publish Module
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
 
-  <script src="firebase-config.js"></script>
-  <script src="admin.js"></script>
+                <!-- Student Management -->
+                <section id="students">
+                    <div class="data-card">
+                        <h3 class="mb-4"><i class="fas fa-users-cog me-2"></i>Student Management</h3>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control" placeholder="Search students...">
+                            <button class="btn btn-outline-secondary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="table-responsive student-table">
+                            <table class="table table-hover">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Progress</th>
+                                        <th>Last Active</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentList">
+                                    <!-- Students loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="adminToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">System Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

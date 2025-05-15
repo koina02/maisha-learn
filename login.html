@@ -11,9 +11,11 @@
         :root {
             --primary-green: #2E7D32;
             --secondary-green: #4CAF50;
+            --light-green: #E8F5E9;
             --accent-yellow: #FFD700;
             --light-bg: #F8F9FA;
             --dark-bg: #1A1A1A;
+            --error-red: #DC3545;
         }
 
         body {
@@ -29,19 +31,31 @@
             display: flex;
             align-items: center;
             padding: 2rem 0;
-            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)),
-                        url('assets/african-pattern-bg.png');
+            background: linear-gradient(rgba(255,255,255,0.97), rgba(255,255,255,0.97)),
+                        url('assets/african-pattern-bg.png') center/cover no-repeat;
         }
 
         .auth-card {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             padding: 2.5rem;
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            border: 1px solid rgba(46, 125, 50, 0.1);
+            border: 1px solid rgba(46, 125, 50, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-green), var(--secondary-green));
         }
 
         .password-toggle {
@@ -51,6 +65,130 @@
             transform: translateY(-50%);
             cursor: pointer;
             color: var(--primary-green);
+            z-index: 5;
+        }
+
+        .input-group-text {
+            background-color: var(--light-green);
+            border-color: #e0e0e0;
+        }
+
+        .btn-success {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #1B5E20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .divider::before {
+            margin-right: 1rem;
+        }
+
+        .divider::after {
+            margin-left: 1rem;
+        }
+
+        .social-auth .btn {
+            transition: all 0.3s ease;
+        }
+
+        .social-auth .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .auth-header {
+            position: relative;
+        }
+
+        .auth-header h2 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .auth-header h2:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-green), var(--secondary-green));
+            border-radius: 3px;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .security-info {
+            background-color: var(--light-green);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .security-info i {
+            color: var(--primary-green);
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 576px) {
+            .auth-card {
+                padding: 1.5rem;
+                border-radius: 12px;
+            }
+            
+            .social-auth {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner-border {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-width: 0.15em;
+            display: none;
+        }
+
+        /* Accessibility focus styles */
+        input:focus, button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+            border-color: var(--primary-green);
         }
     </style>
 </head>
@@ -59,8 +197,16 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-                <img src="assets/logo-green.svg" alt="Maisha Learn" height="40">
+                <span class="ms-2 fw-bold" style="color: var(--primary-green);">Maisha Learn</span>
             </a>
+            <div class="d-flex align-items-center">
+                <span class="badge bg-success-light text-success me-2">
+                    <i class="fas fa-lock me-1"></i>Secure
+                </span>
+                <a href="register.html" class="btn btn-outline-success d-none d-md-inline-block">
+                    Create Account
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -69,37 +215,56 @@
         <div class="auth-card">
             <div class="auth-header text-center mb-5">
                 <h2 class="fw-bold mb-3">Welcome Back</h2>
-                <p class="text-muted">Continue your learning journey</p>
+                <p class="text-muted">Continue your learning journey with Maisha Learn</p>
             </div>
 
-            <form id="loginForm" class="auth-form">
+            <form id="loginForm" class="auth-form" novalidate>
                 <div class="mb-4">
-                    <label class="form-label">Email Address</label>
+                    <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
                         <span class="input-group-text">
                             <i class="fas fa-envelope"></i>
                         </span>
                         <input type="email" class="form-control" id="email" 
-                               placeholder="john@example.com" required>
+                               placeholder="john@example.com" required
+                               autocomplete="username">
+                        <div class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
                     </div>
                 </div>
 
                 <div class="mb-4 position-relative">
-                    <label class="form-label">Password</label>
+                    <label for="password" class="form-label">Password</label>
                     <div class="input-group">
                         <span class="input-group-text">
                             <i class="fas fa-lock"></i>
                         </span>
                         <input type="password" class="form-control" id="password" 
-                               placeholder="Enter your password" required>
-                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                               placeholder="Enter your password" required
+                               minlength="8" autocomplete="current-password">
+                        <i class="fas fa-eye password-toggle" id="togglePassword" title="Toggle password visibility"></i>
+                        <div class="invalid-feedback">
+                            Password must be at least 8 characters.
+                        </div>
+                    </div>
+                    <div class="password-strength mt-2">
+                        <div class="password-strength-bar" id="passwordStrength"></div>
                     </div>
                     <div class="text-end mt-2">
-                        <a href="#forgot-password" class="text-success small">Forgot Password?</a>
+                        <a href="forgot-password.html" class="text-success small">Forgot Password?</a>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success w-100 py-3">
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                        Remember me
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-3 mb-3" id="loginButton">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                     <i class="fas fa-sign-in-alt me-2"></i>Sign In
                 </button>
 
@@ -111,29 +276,61 @@
 
                 <div class="divider my-4">or continue with</div>
 
-                <div class="social-auth d-flex gap-3">
+                <div class="social-auth d-flex gap-3 mb-4">
                     <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="signInWithGoogle()">
-                        <i class="fab fa-google"></i>
+                        <i class="fab fa-google me-2"></i>Google
                     </button>
                     <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="signInWithFacebook()">
-                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-facebook-f me-2"></i>Facebook
                     </button>
+                </div>
+
+                <div class="security-info">
+                    <div class="d-flex align-items-start mb-2">
+                        <i class="fas fa-shield-alt mt-1"></i>
+                        <div>Your security is important to us. We use encryption to protect your data.</div>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-info-circle mt-1"></i>
+                        <div>This is a demo login page for Maisha Learn testing only. Not for real credentials.</div>
+                    </div>
                 </div>
             </form>
         </div>
     </main>
 
     <!-- Error Toast -->
-    <div class="toast align-items-center text-white bg-danger border-0 position-fixed top-1 end-1">
+    <div class="toast align-items-center text-white bg-danger border-0 position-fixed top-1 end-1" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
-            <div class="toast-body"></div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            <div class="toast-body d-flex align-items-center">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span id="toastMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="firebase-config.js"></script>
     <script>
+        // Form Validation
+        (function () {
+            'use strict'
+            
+            const forms = document.querySelectorAll('.needs-validation')
+            
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
         // Password Visibility Toggle
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
@@ -141,28 +338,88 @@
         togglePassword.addEventListener('click', () => {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
             togglePassword.classList.toggle('fa-eye-slash');
         });
+
+        // Password Strength Indicator
+        password.addEventListener('input', function() {
+            const strengthBar = document.getElementById('passwordStrength');
+            const strength = calculatePasswordStrength(this.value);
+            
+            strengthBar.style.width = `${strength.percentage}%`;
+            strengthBar.style.backgroundColor = strength.color;
+        });
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            
+            if (password.length > 7) strength += 25;
+            if (password.length > 11) strength += 25;
+            if (hasUpperCase && hasLowerCase) strength += 15;
+            if (hasNumbers) strength += 15;
+            if (hasSpecialChars) strength += 20;
+            
+            strength = Math.min(strength, 100);
+            
+            let color;
+            if (strength < 40) color = '#DC3545'; // Red
+            else if (strength < 70) color = '#FFC107'; // Yellow
+            else color = '#28A745'; // Green
+            
+            return { percentage: strength, color };
+        }
 
         // Login Handler
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const loginButton = document.getElementById('loginButton');
+            const spinner = loginButton.querySelector('.spinner-border');
+            const icon = loginButton.querySelector('.fa-sign-in-alt');
+            
+            // Show loading state
+            icon.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            loginButton.disabled = true;
+            
             try {
+                // Set persistence based on remember me
+                const persistence = rememberMe ? 
+                    firebase.auth.Auth.Persistence.LOCAL : 
+                    firebase.auth.Auth.Persistence.SESSION;
+                
+                await firebase.auth().setPersistence(persistence);
                 await firebase.auth().signInWithEmailAndPassword(email, password);
+                
+                // Redirect to dashboard
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 showToast(error.message);
+            } finally {
+                // Reset button state
+                spinner.style.display = 'none';
+                icon.style.display = 'inline-block';
+                loginButton.disabled = false;
             }
         });
 
         // Social Auth Handlers
         async function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('profile');
+            provider.addScope('email');
+            
             try {
-                await firebase.auth().signInWithPopup(provider);
+                const result = await firebase.auth().signInWithPopup(provider);
+                // Additional user info available in result.additionalUserInfo.profile
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 showToast(error.message);
@@ -171,8 +428,11 @@
 
         async function signInWithFacebook() {
             const provider = new firebase.auth.FacebookAuthProvider();
+            provider.addScope('email');
+            
             try {
-                await firebase.auth().signInWithPopup(provider);
+                const result = await firebase.auth().signInWithPopup(provider);
+                // Additional user info available in result.additionalUserInfo.profile
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 showToast(error.message);
@@ -180,10 +440,36 @@
         }
 
         function showToast(message) {
-            const toast = new bootstrap.Toast(document.querySelector('.toast'));
-            document.querySelector('.toast-body').textContent = message;
+            const toastEl = document.querySelector('.toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toast = new bootstrap.Toast(toastEl);
+            
+            toastMessage.textContent = message;
             toast.show();
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                toast.hide();
+            }, 5000);
         }
+
+        // Check for redirect message (e.g., from protected route)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectReason = urlParams.get('redirect_reason');
+            
+            if (redirectReason) {
+                showToast(redirectReason);
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
     </script>
+    <footer class="py-4 text-center text-muted small">
+        <div class="container">
+            <p>This site is for educational/demo purposes only. No personal data is stored.</p>
+            <p class="mb-0">© 2023 Maisha Learn. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

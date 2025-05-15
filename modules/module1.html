@@ -1,14 +1,638 @@
-<!-- modules/module1.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <title>Module 1 - Introduction to Growth</title>
-  <link rel="stylesheet" href="../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Introduction to Growth | Maisha Learn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .module-header {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(76, 175, 80, 0.1) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .learning-card {
+            border-radius: 12px;
+            border-left: 4px solid #2E7D32;
+            transition: transform 0.3s ease;
+        }
+        
+        .learning-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .module-progress {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .module-tabs .nav-link {
+            color: #495057;
+            font-weight: 500;
+            border: none;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .module-tabs .nav-link.active {
+            color: #2E7D32;
+            background: transparent;
+            border-bottom: 3px solid #2E7D32;
+        }
+        
+        .resource-card {
+            border-left: 4px solid #6c757d;
+        }
+        
+        .module-sidebar {
+            position: sticky;
+            top: 20px;
+        }
+        
+        .module-list {
+            border-left: 2px solid #e9ecef;
+        }
+        
+        .module-list-item {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .module-list-item:before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: #2E7D32;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .module-list-item.active:before {
+            opacity: 1;
+        }
+        
+        .module-list-item.completed .module-title {
+            color: #2E7D32;
+        }
+        
+        .module-list-item.completed .module-title:after {
+            content: "✓";
+            margin-left: 0.5rem;
+            color: #2E7D32;
+        }
+    </style>
 </head>
 <body>
-  <h1>Module 1: Introduction to Growth</h1>
-  <p>This module will teach you how to plan your goals and build habits for a productive lifestyle.</p>
-  <button onclick="window.location.href='../modules.html'">Back to Modules</button>
+    <!-- Module Navigation -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../assets/logo-green.svg" alt="Maisha Learn" height="40">
+            </a>
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <small class="text-muted">Course Progress</small>
+                    <div class="progress module-progress" style="width: 120px;">
+                        <div class="progress-bar bg-success" style="width: 25%"></div>
+                    </div>
+                </div>
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-success dropdown-toggle" type="button" id="moduleDropdown" data-bs-toggle="dropdown">
+                        <i class="fas fa-book me-2"></i>Personal Growth Path
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><h6 class="dropdown-header">Learning Paths</h6></li>
+                        <li><a class="dropdown-item active" href="#"><i class="fas fa-seedling me-2"></i>Personal Growth</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-briefcase me-2"></i>Career Development</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Relationships</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Create New Path</a></li>
+                    </ul>
+                </div>
+                <a href="../modules.html" class="btn btn-outline-success">
+                    <i class="fas fa-arrow-left me-2"></i>All Modules
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row">
+            <!-- Sidebar with module list -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="module-sidebar">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Personal Growth Path</h5>
+                            <p class="small text-muted">Master the skills to transform your life through intentional growth</p>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" style="width: 25%">25%</div>
+                            </div>
+                            <a href="#" class="btn btn-sm btn-outline-success w-100">View Path Details</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0">Modules in This Path</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled module-list">
+                                <li class="module-list-item active">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="module-title">1. Introduction to Growth</span>
+                                        <span class="badge bg-success-light text-success small">Current</span>
+                                    </div>
+                                    <div class="small text-muted">30-45 min</div>
+                                </li>
+                                <li class="module-list-item">
+                                    <div class="module-title">2. Habit Formation Science</div>
+                                    <div class="small text-muted">45-60 min</div>
+                                </li>
+                                <li class="module-list-item">
+                                    <div class="module-title">3. Goal Setting Mastery</div>
+                                    <div class="small text-muted">1 hour</div>
+                                </li>
+                                <li class="module-list-item completed">
+                                    <div class="module-title">4. Overcoming Obstacles</div>
+                                    <div class="small text-muted">35-50 min</div>
+                                </li>
+                                <li class="module-list-item">
+                                    <div class="module-title">5. Productivity Systems</div>
+                                    <div class="small text-muted">1-1.5 hours</div>
+                                </li>
+                                <li class="module-list-item">
+                                    <div class="module-title">6. Mindfulness & Focus</div>
+                                    <div class="small text-muted">40-55 min</div>
+                                </li>
+                                <li class="module-list-item">
+                                    <div class="module-title">7. Continuous Learning</div>
+                                    <div class="small text-muted">50-65 min</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main content -->
+            <div class="col-lg-9">
+                <main>
+                    <!-- Module Header -->
+                    <div class="module-header text-center">
+                        <span class="badge bg-success mb-3">
+                            <i class="fas fa-seedling me-2"></i>Beginner Level
+                        </span>
+                        <h1 class="display-5 fw-bold mb-3">Introduction to Personal Growth</h1>
+                        <p class="lead mb-4">Learn how to plan your goals and build habits for a productive lifestyle</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-clock me-2"></i>30-45 mins
+                            </span>
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-star me-2"></i>Core Module
+                            </span>
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-trophy me-2"></i>5 XP
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Module Tabs -->
+                    <ul class="nav module-tabs mb-4">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#content" data-bs-toggle="tab">Content</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#resources" data-bs-toggle="tab">Resources</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#notes" data-bs-toggle="tab">Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#discussion" data-bs-toggle="tab">Discussion</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- Content Tab -->
+                        <div class="tab-pane fade show active" id="content">
+                            <!-- Video Lesson -->
+                            <div class="video-container mb-5">
+                                <div class="ratio ratio-16x9">
+                                    <iframe src="https://www.youtube.com/embed/EXAMPLE" allowfullscreen></iframe>
+                                </div>
+                                <div class="p-3 bg-light">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="mb-1">Video: Foundations of Growth</h5>
+                                            <p class="text-muted small mb-0">12 min · Watch this introduction to personal development principles</p>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-success">
+                                                <i class="far fa-check-circle me-1"></i>Mark Complete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Learning Content -->
+                            <div class="row g-4 mb-5">
+                                <div class="col-md-6">
+                                    <div class="learning-card card h-100">
+                                        <div class="card-body">
+                                            <h3 class="h5"><i class="fas fa-bullseye text-success me-2"></i>What You'll Learn</h3>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                                    <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                                    <span>The science of habit formation and how to leverage it</span>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                                    <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                                    <span>SMART goal setting framework with practical examples</span>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                                    <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                                    <span>Identifying and overcoming common growth obstacles</span>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                                    <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                                    <span>Creating a personalized growth plan that works for you</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="learning-card card h-100">
+                                        <div class="card-body">
+                                            <h3 class="h5"><i class="fas fa-tasks text-success me-2"></i>Activities & Exercises</h3>
+                                            <div class="list-group list-group-flush">
+                                                <a href="#" class="list-group-item list-group-item-action border-0 ps-0 d-flex align-items-center">
+                                                    <div class="bg-success-light rounded p-2 me-3">
+                                                        <i class="fas fa-pencil-alt text-success"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-medium">Self-assessment worksheet</div>
+                                                        <small class="text-muted">Identify your growth areas</small>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action border-0 ps-0 d-flex align-items-center">
+                                                    <div class="bg-success-light rounded p-2 me-3">
+                                                        <i class="fas fa-calendar-check text-success"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-medium">30-day habit tracker</div>
+                                                        <small class="text-muted">Build your first positive habit</small>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action border-0 ps-0 d-flex align-items-center">
+                                                    <div class="bg-success-light rounded p-2 me-3">
+                                                        <i class="fas fa-comments text-success"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-medium">Discussion questions</div>
+                                                        <small class="text-muted">Share with the community</small>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Content -->
+                            <div class="card mb-5">
+                                <div class="card-body">
+                                    <h3 class="card-title mb-4">Detailed Learning Materials</h3>
+                                    
+                                    <div class="mb-4">
+                                        <h4 class="h5"><i class="fas fa-brain text-success me-2"></i>The Growth Mindset</h4>
+                                        <p>Developing a growth mindset is foundational to personal development. Unlike a fixed mindset that believes abilities are static, a growth mindset thrives on challenge and sees failure not as evidence of unintelligence but as a heartening springboard for growth and for stretching our existing abilities.</p>
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <h5 class="h6"><i class="fas fa-lightbulb text-success me-2"></i>Key Concept</h5>
+                                            <p class="mb-0">Carol Dweck's research shows that people with growth mindsets achieve more than those with fixed mindsets because they worry less about looking smart and put more energy into learning.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <h4 class="h5"><i class="fas fa-bullseye text-success me-2"></i>SMART Goals Framework</h4>
+                                        <p>The SMART criteria provide a clear framework for setting effective goals:</p>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><strong>S</strong>pecific - Clearly defined and focused</li>
+                                            <li class="mb-2"><strong>M</strong>easurable - With concrete criteria for tracking progress</li>
+                                            <li class="mb-2"><strong>A</strong>chievable - Realistic and attainable</li>
+                                            <li class="mb-2"><strong>R</strong>elevant - Aligned with your values and long-term objectives</li>
+                                            <li class="mb-2"><strong>T</strong>ime-bound - With a clearly defined timeline</li>
+                                        </ul>
+                                        <div class="bg-success-light p-3 rounded">
+                                            <h5 class="h6"><i class="fas fa-clipboard-check text-success me-2"></i>Exercise</h5>
+                                            <p>Transform this vague goal into a SMART goal: "I want to get better at public speaking."</p>
+                                            <button class="btn btn-sm btn-success">Show Example</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <h4 class="h5"><i class="fas fa-chart-line text-success me-2"></i>Habit Formation</h4>
+                                        <p>Habits are the compound interest of self-improvement. According to research, habit formation consists of three key components:</p>
+                                        <ol>
+                                            <li class="mb-2"><strong>Cue:</strong> The trigger that initiates the behavior</li>
+                                            <li class="mb-2"><strong>Routine:</strong> The behavior itself</li>
+                                            <li class="mb-2"><strong>Reward:</strong> The benefit you gain from doing the behavior</li>
+                                        </ol>
+                                        <p>Understanding this loop is crucial for building new habits and breaking unwanted ones.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Knowledge Check -->
+                            <div class="card border-success mb-5">
+                                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                                    <h3 class="h5 mb-0"><i class="fas fa-question-circle me-2"></i>Knowledge Check</h3>
+                                    <span class="badge bg-white text-success">5 Questions</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Test your understanding of the concepts covered in this module:</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="badge bg-success-light text-success me-2">
+                                                <i class="fas fa-award"></i> 5 XP Available
+                                            </span>
+                                            <small class="text-muted">Score 80% or higher to earn points</small>
+                                        </div>
+                                        <a href="#" class="btn btn-success">
+                                            <i class="fas fa-clipboard-check me-2"></i>Take Quiz
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Completion -->
+                            <div class="card bg-light mb-5">
+                                <div class="card-body text-center py-4">
+                                    <h4 class="mb-3">Complete this module to continue your learning path</h4>
+                                    <p class="text-muted mb-4">Mark all lessons as complete and pass the knowledge check to unlock the next module</p>
+                                    <button class="btn btn-success btn-lg px-4">
+                                        <i class="fas fa-check-circle me-2"></i>Mark Module Complete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Resources Tab -->
+                        <div class="tab-pane fade" id="resources">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h3 class="card-title mb-4">Additional Resources</h3>
+                                    
+                                    <div class="resource-card card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="bg-success-light p-3 rounded">
+                                                        <i class="fas fa-book text-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="mb-1">Atomic Habits by James Clear</h5>
+                                                    <p class="small text-muted mb-2">Book · Learn tiny changes that lead to remarkable results</p>
+                                                    <a href="#" class="btn btn-sm btn-outline-success">View Summary</a>
+                                                    <a href="#" class="btn btn-sm btn-outline-secondary ms-2">Get Book</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resource-card card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="bg-success-light p-3 rounded">
+                                                        <i class="fas fa-file-pdf text-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="mb-1">SMART Goals Worksheet</h5>
+                                                    <p class="small text-muted mb-2">PDF · Template for setting effective goals</p>
+                                                    <a href="#" class="btn btn-sm btn-outline-success">Download</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resource-card card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="bg-success-light p-3 rounded">
+                                                        <i class="fas fa-podcast text-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="mb-1">The Growth Mindset Podcast</h5>
+                                                    <p class="small text-muted mb-2">Audio · Episode on habit stacking</p>
+                                                    <a href="#" class="btn btn-sm btn-outline-success">Listen Now</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resource-card card">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="bg-success-light p-3 rounded">
+                                                        <i class="fas fa-link text-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h5 class="mb-1">Additional Reading Links</h5>
+                                                    <p class="small text-muted mb-2">Articles · Further exploration of topics</p>
+                                                    <ul class="list-unstyled">
+                                                        <li class="mb-2"><a href="#" class="text-success">The Science of Habit Formation</a></li>
+                                                        <li class="mb-2"><a href="#" class="text-success">10 Growth Mindset Examples</a></li>
+                                                        <li><a href="#" class="text-success">Goal Setting Case Studies</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Notes Tab -->
+                        <div class="tab-pane fade" id="notes">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h3 class="card-title mb-4">Your Notes</h3>
+                                    <div class="mb-4">
+                                        <textarea class="form-control" rows="8" placeholder="Add your personal notes here... You can save key insights, questions, or action items."></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <button class="btn btn-success">
+                                                <i class="fas fa-save me-2"></i>Save Notes
+                                            </button>
+                                            <button class="btn btn-outline-secondary ms-2">
+                                                <i class="fas fa-print me-2"></i>Print
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-outline-danger">
+                                                <i class="fas fa-trash-alt me-2"></i>Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-3">Note-taking Tips</h4>
+                                    <div class="alert alert-success">
+                                        <h5 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Effective Note-taking Strategies</h5>
+                                        <ul class="mb-0">
+                                            <li>Use the Cornell method for better retention</li>
+                                            <li>Highlight key concepts and action items</li>
+                                            <li>Summarize each section in your own words</li>
+                                            <li>Note down questions for further research</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Discussion Tab -->
+                        <div class="tab-pane fade" id="discussion">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h3 class="card-title mb-4">Module Discussion</h3>
+                                    <div class="d-flex mb-4">
+                                        <div class="flex-shrink-0 me-3">
+                                            <img src="https://via.placeholder.com/50" class="rounded-circle" alt="User">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <textarea class="form-control mb-2" rows="3" placeholder="Add to the discussion..."></textarea>
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <button class="btn btn-sm btn-outline-secondary me-2">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary">
+                                                        <i class="fas fa-at"></i>
+                                                    </button>
+                                                </div>
+                                                <button class="btn btn-sm btn-success">Post Comment</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex mb-4">
+                                        <div class="flex-shrink-0 me-3">
+                                            <img src="https://via.placeholder.com/50" class="rounded-circle" alt="User">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <h6 class="mb-0 fw-bold">Alex Johnson</h6>
+                                                        <small class="text-muted">2 hours ago</small>
+                                                    </div>
+                                                    <p class="mb-2">I found the habit stacking concept really powerful. Has anyone tried combining meditation with their morning coffee routine?</p>
+                                                    <div>
+                                                        <a href="#" class="small text-success me-3"><i class="far fa-thumbs-up me-1"></i>Like (5)</a>
+                                                        <a href="#" class="small text-success me-3"><i class="far fa-comment me-1"></i>Reply</a>
+                                                        <a href="#" class="small text-success"><i class="fas fa-share me-1"></i>Share</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex mb-4 ms-5">
+                                        <div class="flex-shrink-0 me-3">
+                                            <img src="https://via.placeholder.com/40" class="rounded-circle" alt="User">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <h6 class="mb-0 fw-bold">Samira Khan</h6>
+                                                        <small class="text-muted">1 hour ago</small>
+                                                    </div>
+                                                    <p class="mb-2">@Alex Johnson Yes! I've been doing 2 minutes of deep breathing while my coffee brews. It's been a game changer for starting my day mindfully.</p>
+                                                    <div>
+                                                        <a href="#" class="small text-success me-3"><i class="far fa-thumbs-up me-1"></i>Like (3)</a>
+                                                        <a href="#" class="small text-success me-3"><i class="far fa-comment me-1"></i>Reply</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <img src="https://via.placeholder.com/50" class="rounded-circle" alt="User">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <h6 class="mb-0 fw-bold">Maria Garcia</h6>
+                                                        <small class="text-muted">45 minutes ago</small>
+                                                    </div>
+                                                    <p class="mb-2">The SMART goal framework helped me finally get my side project moving. I broke down "write a book" into "write 500 words every morning before work." Three chapters done already!</p>
+                                                    <div>
+                                                        <a href="#" class="small text-success me-3"><i class="far fa-thumbs-up me-1"></i>Like (8)</a>
+                                                        <a href="#" class="small text-success me-3"><i class="far fa-comment me-1"></i>Reply</a>
+                                                        <a href="#" class="small text-success"><i class="fas fa-share me-1"></i>Share</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="d-flex justify-content-between mb-5">
+                        <a href="../modules.html" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Modules
+                        </a>
+                        <div>
+                            <a href="#" class="btn btn-outline-success me-2">
+                                <i class="far fa-bookmark me-2"></i>Save for Later
+                            </a>
+                            <a href="module2.html" class="btn btn-success">
+                                Next Module <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../app.js"></script>
 </body>
 </html>
