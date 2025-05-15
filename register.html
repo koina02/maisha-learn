@@ -1,0 +1,23 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Maisha Learn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Create a Maisha Learn Account</h2>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Full Name" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="login.html">Login</a></p>
+
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

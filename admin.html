@@ -1,0 +1,31 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Maisha Learn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+
+  <section>
+    <h2>Upload Module</h2>
+    <form id="uploadModuleForm">
+      <input type="text" id="moduleTitle" placeholder="Module Title" required>
+      <textarea id="moduleContent" placeholder="Enter content here..." rows="6" required></textarea>
+      <button type="submit">Upload Module</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>All Students</h2>
+    <ul id="studentList">
+      <!-- Dynamically populated -->
+    </ul>
+  </section>
+
+  <script src="firebase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
